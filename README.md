@@ -53,6 +53,10 @@ Now you can open up a terminal and start training the agent:
 python3 train.py data/GOOG_before_2020.csv data/GOOG_2020.csv --strategy t-dqn
 ```
 
+```bash
+python3 train.py data/GOOG_before_2020.csv data/GOOG_2020.csv --strategy t-dqn --model-name=model_t-dqn_GOOG_2020 --episode-count=50
+```
+
 Once you're done training, run the evaluation script and let the agent make trading decisions:
 
 ```bash

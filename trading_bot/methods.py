@@ -15,6 +15,7 @@ from .ops import (
 
 
 def train_model(agent, episode, data, ep_count=100, batch_size=32, window_size=10):
+    budgett = 10000
     total_profit = 0
     data_length = len(data) - 1
 
@@ -31,11 +32,13 @@ def train_model(agent, episode, data, ep_count=100, batch_size=32, window_size=1
         action = agent.act(state)
 
         # BUY
-        if action == 1:
+        if action == 1 and budgett >= data[t]:
+            budgett -= data[t]
             agent.inventory.append(data[t])
 
         # SELL
         elif action == 2 and len(agent.inventory) > 0:
+            budgett += data[t]
             bought_price = agent.inventory.pop(0)
             delta = data[t] - bought_price
             reward = delta #max(delta, 0)
@@ -57,10 +60,11 @@ def train_model(agent, episode, data, ep_count=100, batch_size=32, window_size=1
     if episode % 10 == 0:
         agent.save(episode)
 
-    return (episode, ep_count, total_profit, np.mean(np.array(avg_loss)))
+    return (episode, ep_count, total_profit, np.mean(np.array(avg_loss)), budgett)
 
 
 def evaluate_model(agent, data, window_size, debug):
+    budgett = 10000
     total_profit = 0
     data_length = len(data) - 1
 
@@ -77,15 +81,18 @@ def evaluate_model(agent, data, window_size, debug):
         action = agent.act(state, is_eval=True)
 
         # BUY
-        if action == 1:
+        if action == 1 and budgett >= data[t]:
+            budgett -= data[t]
             agent.inventory.append(data[t])
 
             history.append((data[t], "BUY"))
             if debug:
                 logging.debug("Buy at: {}".format(format_currency(data[t])))
+                logging.debug("Budget: {}".format(format_currency(budgett)))
         
         # SELL
         elif action == 2 and len(agent.inventory) > 0:
+            budgett += data[t]
             bought_price = agent.inventory.pop(0)
             delta = data[t] - bought_price
             reward = delta #max(delta, 0)
@@ -95,6 +102,7 @@ def evaluate_model(agent, data, window_size, debug):
             if debug:
                 logging.debug("Sell at: {} | Position: {}".format(
                     format_currency(data[t]), format_position(data[t] - bought_price)))
+                logging.debug("Budget: {}".format(format_currency(budgett)))
         # HOLD
         else:
             history.append((data[t], "HOLD"))

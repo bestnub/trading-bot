@@ -63,6 +63,10 @@ Once you're done training, run the evaluation script and let the agent make trad
 python3 eval.py data/GOOG_2020.csv --model-name model_t-dqn_GOOG_10 --debug
 ```
 
+```bash
+python3 eval.py data/GOOG_2020.csv --model-name model_GOOG_budget --debug
+```
+
 Now you are all set up!
 
 ## Acknowledgements

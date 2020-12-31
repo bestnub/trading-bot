@@ -57,8 +57,8 @@ def train_model(agent, episode, data, ep_count=100, batch_size=32, window_size=1
 
         state = next_state
 
-    if episode % 10 == 0:
-        agent.save(episode)
+#    if episode % 10 == 0:
+    agent.save(episode)
         
     inventory_worth = data[data_length]*len(agent.inventory)
 

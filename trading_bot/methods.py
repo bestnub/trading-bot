@@ -12,10 +12,10 @@ from .utils import (
 from .ops import (
     get_state
 )
-
+budg = 2000
 
 def train_model(agent, episode, data, ep_count=100, batch_size=32, window_size=10):
-    budgett = 10000
+    budgett = budg
     total_profit = 0
     data_length = len(data) - 1
 
@@ -64,7 +64,7 @@ def train_model(agent, episode, data, ep_count=100, batch_size=32, window_size=1
 
 
 def evaluate_model(agent, data, window_size, debug):
-    budgett = 10000
+    budgett = budg
     total_profit = 0
     data_length = len(data) - 1
 

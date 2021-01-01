@@ -181,7 +181,7 @@ class Agent:
         self.model.save("models/{}".format(self.model_name))
     
     def save_best(self, profit):
-        self.model.save("models/{}_best/{}".format(self.model_name, profit))
+        self.model.save("models/{}_best/{}_{}".format(self.model_name, self.model_name, profit))
 
     def load(self):
         return load_model("models/" + self.model_name, custom_objects=self.custom_objects)

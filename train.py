@@ -53,12 +53,23 @@ def main(train_stock, val_stock, window_size, batch_size, ep_count,
     val_data = get_stock_data(val_stock)
 
     initial_offset = val_data[1] - val_data[0]
+    
+    best_profit = 0
+    
+    if pretrained:
+        best_profit = evaluate_model(agent, val_data, window_size, 0)[0]
+        logging.debug("Best Profit: {}".format(format_currency(best_profit)))
 
     for episode in range(1, ep_count + 1):
         train_result = train_model(agent, episode, train_data, ep_count=ep_count,
                                    batch_size=batch_size, window_size=window_size)
         val_result, _ = evaluate_model(agent, val_data, window_size, debug)
         show_train_result(train_result, val_result, initial_offset)
+        
+        if val_result > best_profit:
+            best_profit = val_result
+            agent.save_best(best_profit)
+            logging.debug("Best Profit: {}".format(format_currency(best_profit)))
 
 
 if __name__ == "__main__":

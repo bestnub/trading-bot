@@ -13,6 +13,7 @@ from .ops import (
     get_state
 )
 budg = 2000
+fees = 3
 
 def train_model(agent, episode, data, ep_count=100, batch_size=32, window_size=10):
     budgett = budg
@@ -32,15 +33,15 @@ def train_model(agent, episode, data, ep_count=100, batch_size=32, window_size=1
         action = agent.act(state)
 
         # BUY
-        if action == 1 and budgett >= data[t]:
-            budgett -= data[t]
-            agent.inventory.append(data[t])
+        if action == 1 and budgett >= (data[t] + fees):
+            budgett -= (data[t] + fees)
+            agent.inventory.append(data[t] + fees)
 
         # SELL
         elif action == 2 and len(agent.inventory) > 0:
-            budgett += data[t]
+            budgett += (data[t] - fees)
             bought_price = agent.inventory.pop(0)
-            delta = data[t] - bought_price
+            delta = data[t] - bought_price - fees
             reward = delta #max(delta, 0)
             total_profit += delta
 
@@ -83,9 +84,9 @@ def evaluate_model(agent, data, window_size, debug):
         action = agent.act(state, is_eval=True)
 
         # BUY
-        if action == 1 and budgett >= data[t]:
-            budgett -= data[t]
-            agent.inventory.append(data[t])
+        if action == 1 and budgett >= (data[t] + fees):
+            budgett -= (data[t] + fees)
+            agent.inventory.append(data[t] + fees)
 
             history.append((data[t], "BUY"))
             if debug:
@@ -94,16 +95,16 @@ def evaluate_model(agent, data, window_size, debug):
         
         # SELL
         elif action == 2 and len(agent.inventory) > 0:
-            budgett += data[t]
+            budgett += (data[t] - fees)
             bought_price = agent.inventory.pop(0)
-            delta = data[t] - bought_price
+            delta = data[t] - bought_price - fees
             reward = delta #max(delta, 0)
             total_profit += delta
 
             history.append((data[t], "SELL"))
             if debug:
                 logging.debug("Sell at: {} | Position: {}".format(
-                    format_currency(data[t]), format_position(data[t] - bought_price)))
+                    format_currency(data[t]), format_position(data[t] - bought_price - fees)))
                 logging.debug("Budget: {}".format(format_currency(budgett)))
         # HOLD
         else:

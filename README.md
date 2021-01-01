@@ -69,7 +69,7 @@ python3 eval.py data/GOOG_2020.csv --model-name model_GOOG_budget --debug
 
 python train.py data/GOOG_before_2020.csv data/GOOG_2020.csv --strategy t-dqn --model-name=model_GOOG_budget --episode-count=100000000
 python train.py data/NFLX_2013-2019.csv data/NFLX_2020.csv --strategy t-dqn --model-name=model_NFLX_budget --episode-count=100000000
-
+python train.py data/NFLX_2013-2019.csv data/NFLX_2020.csv --strategy t-dqn --model-name=model_NFLX_30_day --window-size=30 --episode-count=100000000
 Now you are all set up!
 
 ## Acknowledgements

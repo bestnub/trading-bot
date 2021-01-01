@@ -61,7 +61,7 @@ def train_model(agent, episode, data, ep_count=100, batch_size=32, window_size=1
 #    if episode % 10 == 0:
     agent.save(episode)
         
-    inventory_worth = data[data_length]*len(agent.inventory)
+    inventory_worth = (data[data_length] - fees)*len(agent.inventory)
 
     return (episode, ep_count, total_profit, np.mean(np.array(avg_loss)), budgett, inventory_worth)
 

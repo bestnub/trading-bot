@@ -67,9 +67,15 @@ python3 eval.py data/GOOG_2020.csv --model-name model_t-dqn_GOOG_10 --debug
 python3 eval.py data/GOOG_2020.csv --model-name model_GOOG_budget --debug
 ```
 
-python train.py data/GOOG_before_2020.csv data/GOOG_2020.csv --strategy t-dqn --model-name=model_GOOG_budget --episode-count=100000000
-python train.py data/NFLX_2013-2019.csv data/NFLX_2020.csv --strategy t-dqn --model-name=model_NFLX_budget --episode-count=100000000
-python train.py data/NFLX_2013-2019.csv data/NFLX_2020.csv --strategy t-dqn --model-name=model_NFLX_30_day --window-size=30 --episode-count=100000000
+conda activate "Trading Bot"
+
+python train.py data/GOOG_before_2020.csv data/GOOG_2020.csv --strategy t-dqn --model-name=model_GOOG_budget --episode-count=100000000 --pretrained
+
+python train.py data/NFLX_2013-2019.csv data/NFLX_2020.csv --strategy t-dqn --model-name=model_NFLX_budget --episode-count=100000000 --pretrained
+python train.py data/NFLX_2013-2019.csv data/NFLX_2020.csv --strategy dqn --model-name=model_NFLX_budget2 --episode-count=100000000 --pretrained
+python train.py data/NFLX_2013-2019.csv data/NFLX_2020.csv --strategy double-dqn --model-name=model_NFLX_budget3 --episode-count=100000000 --pretrained
+
+python train.py data/NFLX_2013-2019.csv data/NFLX_2020.csv --strategy t-dqn --model-name=model_NFLX_30_day --window-size=30 --episode-count=100000000 --pretrained
 
 Now you are all set up!
 

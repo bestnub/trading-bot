@@ -5,6 +5,6 @@ numpy
 tqdm
 docopt
 coloredlogs
-jupyterlab=
+jupyterlab
 altair
 seaborn

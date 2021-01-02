@@ -1,8 +1,8 @@
 # picks up the GPU it seems
 import tensorflow as tf
 from tensorflow.python.client import device_lib
-#import os
-#os.environ['CUDA_VISIBLE_DEVICES'] = "0"
+import os
+os.environ['CUDA_VISIBLE_DEVICES'] = "0"
 
 #print(os.environ.get("CUDA_PATH"))
 

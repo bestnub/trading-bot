@@ -22,7 +22,7 @@ Options:
                                     trained model (reads `model-name`).
   --debug                           Specifies whether to use verbose logs during eval operation.
 """
-
+import os
 import logging
 import coloredlogs
 
@@ -37,7 +37,7 @@ from trading_bot.utils import (
     show_train_result,
     switch_k_backend_device
 )
-
+os.environ['CUDA_VISIBLE_DEVICES'] = "0"
 
 def main(train_stock, val_stock, window_size, batch_size, ep_count,
          strategy="t-dqn", model_name="model_debug", pretrained=False,
